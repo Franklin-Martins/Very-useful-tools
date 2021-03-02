@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import api from '../services/api'
 
 import {
     Container,
@@ -8,62 +9,72 @@ import {
     Card,
 } from './styles'
 
+interface Tool{
+    id: number;
+    title: string;
+    description: string;
+    link: string;
+    tags: string[];
+}
+
 const Dashboard:React.FC = () => {
+    const [tools, setTools] = useState<Tool[]>([])
+    const [filterSearch, setFilterSearch] = useState(false)
+    useEffect(()=> {
+        async function loadTools() {
+             const response = await api.get('/tools')
+
+             setTools(response.data)
+        }
+
+        loadTools()
+    }, [])
     return(
         <Container>
             <Content>
             <Header>
                 <h1>VUTTR</h1>
-                <h3>Very useful tools to remenber</h3>
+                <h3>Very useful tools to remember</h3>
             </Header>
             <Navigation>
                 <div>
                     <input placeholder="search" type="text"/>
-                    <input type="checkbox" name="check" id="check"/>
-                    <label htmlFor="">search in tags only</label>
+                    <label className="switch" htmlFor="filterByTag">
+                        <input 
+                            type="checkbox" 
+                            id="filterByTag"
+                            checked={filterSearch}
+                            onChange={()=>{setFilterSearch(!filterSearch)}}
+                        />
+                        <span className="slider" />
+                    </label>
+                    <span >search in tags only</span>
                 </div>
                 <button> + add</button>
             </Navigation>
-            <Card>
-                <header>
-                    <a href=""><h1>Notion</h1></a>
-                    <button>x remove</button>
-                </header>
-                <div>
-                    <p>
-                    All in one project to organizes teams and ideas. Write plan
-                    and get organizated.
-                    </p>
-                </div>
-                <footer>
-                    <strong>#organization</strong>
-                    <strong>#planing</strong>
-                    <strong>#collaboration</strong>
-                    <strong>#calendar</strong>
-                    <strong>#writing</strong>
-                </footer>
-            </Card>
-
-            <Card>
-                <header>
-                    <a href=""><h1>Notion</h1></a>
-                    <button>x remove</button>
-                </header>
-                <div>
-                    <p>
-                    All in one project to organizes teams and ideas. Write plan
-                    and get organizated.
-                    </p>
-                </div>
-                <footer>
-                    <strong>#organization</strong>
-                    <strong>#planing</strong>
-                    <strong>#collaboration</strong>
-                    <strong>#calendar</strong>
-                    <strong>#writing</strong>
-                </footer>
-            </Card>
             
+            {tools && tools.map((tool)=>{
+                return(
+                    <Card key={tool.id}>
+                    <header>
+                        <a href={tool.link}><h1> {tool.title} </h1></a>
+                        <button>remove</button>
+                    </header>
+                    <div>
+                        <p>
+                            {tool.description}
+                        </p>
+                    </div>
+                    <footer>
+                        {tool.tags.map((tag)=>{
+                            return(
+                                <strong key={tag}> #{tag} </strong>
+                            )
+                        })}
+                    </footer>
+                </Card>)
+            })}
+
             </Content>
         </Container>
     )
