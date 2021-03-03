@@ -85,17 +85,23 @@ const Dashboard:React.FC = () => {
         setModalOpen(!modalOpen);
     }
 
-    async function handleAddTool(): Promise<void> {
+    async function openModal() {
+        setModalOpen(!modalOpen)
+    }
+
+    async function handleAddTool(tool: Omit<Tool, 'id'>){
         setModalOpen(!modalOpen)
         try {
-            console.log('Ativando')
-          //const response = await api.post('/tools', {
-          //})
-          console.log('funfou')
+          console.log(tool)
+          const response = await api.post('/tools', tool)
+
+          setTools([...tools, response.data])
+          
         } catch (err) {
           console.log(err);
         }
-      }
+    }
+    
     return(
         <>
         <Container>
@@ -128,7 +134,7 @@ const Dashboard:React.FC = () => {
                     </label>
                     <span >search in tags only</span>
                 </div>
-                <button onClick={handleAddTool}> + add</button>
+                <button onClick={openModal}> + add</button>
             </Navigation>
             
             {tools && tools.map((tool)=>{

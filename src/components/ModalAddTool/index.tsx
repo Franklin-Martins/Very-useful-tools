@@ -1,4 +1,5 @@
-import React, { useRef, useCallback, FormEventHandler } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form'
 
 import { Form } from './styles'
 import Modal from '../Modal';
@@ -29,32 +30,30 @@ const ModalAddFood: React.FC<ModalProps> = ({
   setIsOpen,
   handleAddTool,
 }) => {
-  const formRef = useRef<FormEventHandler>(null);
+  const { register, handleSubmit, errors } = useForm<CreateToolData>();
 
-  const handleSubmit = useCallback(
-    async (data: CreateToolData) => {
-      handleAddTool(data);
-
-      setIsOpen();
-    },
-    [handleAddTool, setIsOpen],
-  );
+  const onSubmit = handleSubmit((data)=>{
+    const auxList = data.tags ? data.tags.toString() : ""
+    
+    data.tags = auxList.split(' ')
+    handleAddTool(data)
+  })
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form >
+      <Form  onSubmit={onSubmit}>
         <h1>Add new Tool</h1>
-        <label htmlFor="name"> <strong>Tool name</strong> </label>
-        <input id="name" name="name" placeholder="Ex: json-server" />
+        <label htmlFor="title"> <strong>Tool name</strong> </label>
+        <input ref={register({ required: true })} id="title" name="title" placeholder="Ex: json-server" />
         
         <label htmlFor="link"> <strong>Tool link</strong>  </label>
-        <input id="link" name="link" placeholder="Paste link here" />
+        <input ref={register} id="link" name="link" placeholder="Paste link here" />
 
         <label htmlFor="description"> <strong>Tool description</strong>  </label>
-        <input id="description" name="description" placeholder="Description" />
+        <input ref={register} id="description" name="description" placeholder="Description" />
 
         <label htmlFor="tag"> <strong>Tag</strong>  </label>
-        <input id="tag" name="tag" placeholder="tags:   #api #fake" />
+        <input ref={register} id="tags" name="tags" placeholder="tags:   #api #fake" />
 
         <button type="submit" >
         <p>Add tool</p>
