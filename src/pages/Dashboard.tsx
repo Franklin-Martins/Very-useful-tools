@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import api from '../services/api'
 
+import ModalAddTool from '../components/ModalAddTool'
+
 import {
     Container,
     Content,
@@ -23,6 +25,7 @@ const Dashboard:React.FC = () => {
     const [textToSearch, setTextToSearch] = useState('')
     const [tag, setTag] = useState('');
     const [nameOfTitle, setNameOfTitle] = useState('');
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(()=> {
         async function loadTools() {
@@ -78,8 +81,29 @@ const Dashboard:React.FC = () => {
         }
     }
 
+    function toggleModal(): void {
+        setModalOpen(!modalOpen);
+    }
+
+    async function handleAddTool(): Promise<void> {
+        setModalOpen(!modalOpen)
+        try {
+            console.log('Ativando')
+          //const response = await api.post('/tools', {
+          //})
+          console.log('funfou')
+        } catch (err) {
+          console.log(err);
+        }
+      }
     return(
+        <>
         <Container>
+        <ModalAddTool 
+            isOpen={modalOpen}
+            setIsOpen={toggleModal}
+            handleAddTool={handleAddTool}
+        />
             <Content>
             <Header>
                 <h1>VUTTR</h1>
@@ -104,7 +128,7 @@ const Dashboard:React.FC = () => {
                     </label>
                     <span >search in tags only</span>
                 </div>
-                <button> + add</button>
+                <button onClick={handleAddTool}> + add</button>
             </Navigation>
             
             {tools && tools.map((tool)=>{
@@ -131,6 +155,7 @@ const Dashboard:React.FC = () => {
 
             </Content>
         </Container>
+        </>
     )
 }
 
