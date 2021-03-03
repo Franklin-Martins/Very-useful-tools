@@ -27,6 +27,7 @@ const Dashboard:React.FC = () => {
     const [tag, setTag] = useState('');
     const [nameOfTitle, setNameOfTitle] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
+    const [deletingTool, setDeletingTool] = useState<Pick<Tool, 'id' | 'title'>>({} as Tool);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
     useEffect(()=> {
@@ -83,20 +84,16 @@ const Dashboard:React.FC = () => {
         }
     }
 
-    function toggleModal(): void {
-        setModalOpen(!modalOpen);
-    }
-
     async function openModal() {
         setModalOpen(!modalOpen)
     }
 
-    async function openDeleteModel(){
+    async function openDeleteModalOpen() {
         setDeleteModalOpen(!deleteModalOpen)
     }
 
     async function handleAddTool(tool: Omit<Tool, 'id'>){
-        
+        setModalOpen(!modalOpen)
         try {
           console.log(tool)
           const response = await api.post('/tools', tool)
@@ -108,11 +105,18 @@ const Dashboard:React.FC = () => {
         }
     }
 
-    async function handleRemoveTool(id: number){
-        try {
-          await api.delete(`/tools/${id}`)
+    async function onDelete({ id, title }:Pick<Tool, 'id' | 'title'>) {
+        console.log('funcionou')
+        setDeletingTool({ title,id })
+        setDeleteModalOpen(!deleteModalOpen)
+    }
 
-          setTools(tools.filter(tool => tool.id !== id));
+    async function handleRemoveTool(){
+        try {
+        console.log('entrou na função')
+        console.log('deletando', deletingTool)
+        await api.delete(`/tools/${deletingTool.id}`)
+        setTools(tools.filter(tool => tool.id !== deletingTool.id));
           
         } catch (err) {
           console.log(err);
@@ -125,14 +129,15 @@ const Dashboard:React.FC = () => {
 
         <ModalAddTool 
             isOpen={modalOpen}
-            setIsOpen={toggleModal}
+            setIsOpen={openModal}
             handleAddTool={handleAddTool}
         />
 
         <ModalDeleteTool 
             isOpen={deleteModalOpen}
-            setIsOpen={openDeleteModel}
-            handleDeleteTool={handleRemoveTool}
+            setIsOpen={openDeleteModalOpen}
+            deletingTool={deletingTool}
+            handleRemoveTool={handleRemoveTool}
         />
             <Content>
             <Header>
@@ -166,7 +171,7 @@ const Dashboard:React.FC = () => {
                     <Card key={tool.id}>
                     <header>
                         <a href={tool.link}><h1> {tool.title} </h1></a>
-                        <button onClick={()=> handleRemoveTool(tool.id)}>remove</button>
+                        <button onClick={() => onDelete({ id: tool.id, title:tool.title })}>remove</button>
                     </header>
                     <div>
                         <p>

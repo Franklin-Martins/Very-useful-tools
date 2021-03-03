@@ -30,7 +30,7 @@ const ModalAddFood: React.FC<ModalProps> = ({
   setIsOpen,
   handleAddTool,
 }) => {
-  const { register, handleSubmit, errors } = useForm<CreateToolData>();
+  const { register, handleSubmit } = useForm<CreateToolData>();
 
   const onSubmit = handleSubmit((data)=>{
     const auxList = data.tags ? data.tags.toString() : ""
