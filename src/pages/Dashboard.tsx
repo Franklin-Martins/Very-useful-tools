@@ -18,8 +18,12 @@ interface Tool{
 }
 
 const Dashboard:React.FC = () => {
-    const [tools, setTools] = useState<Tool[]>([])
-    const [filterSearch, setFilterSearch] = useState(false)
+    const [tools, setTools] = useState<Tool[]>([]);
+    const [filterSearch, setFilterSearch] = useState(false);
+    const [textToSearch, setTextToSearch] = useState('')
+    const [tag, setTag] = useState('');
+    const [nameOfTitle, setNameOfTitle] = useState('');
+
     useEffect(()=> {
         async function loadTools() {
              const response = await api.get('/tools')
@@ -28,7 +32,52 @@ const Dashboard:React.FC = () => {
         }
 
         loadTools()
-    }, [])
+    }, []);
+
+    useEffect(()=> {
+        async function loadToolsFilteredByTag() {
+            const response = await api.get('/tools',{
+                params:{
+                    tags_like: tag
+                }
+            })
+
+            setTools(response.data)
+        }
+        loadToolsFilteredByTag()
+    }, [tag, filterSearch]);
+
+    useEffect(()=> {
+        async function loadToolsFilteredByTitle() {
+            const response = await api.get('/tools',{
+                params:{
+                    q: nameOfTitle
+                }
+            })
+            
+            setTools(response.data)
+        }
+        loadToolsFilteredByTitle()
+    }, [nameOfTitle]);
+
+    const handleAddFilter= (e: React.FormEvent<HTMLInputElement>) => {
+        setTextToSearch(e.currentTarget.value)
+        if(filterSearch) setTag(textToSearch) 
+        if(!filterSearch) setNameOfTitle(textToSearch)
+    }
+
+    const handleChangeFilter = () =>{
+        setFilterSearch(!filterSearch);
+        if(filterSearch) {
+            setTag(textToSearch);
+            setNameOfTitle('')
+        }
+        if(!filterSearch) {
+            setNameOfTitle(textToSearch)
+            setTag('')
+        }
+    }
+
     return(
         <Container>
             <Content>
@@ -38,13 +87,18 @@ const Dashboard:React.FC = () => {
             </Header>
             <Navigation>
                 <div>
-                    <input placeholder="search" type="text"/>
+                    <input 
+                        placeholder="search" 
+                        type="text"
+                        value={textToSearch}
+                        onChange={handleAddFilter}
+                    />
                     <label className="switch" htmlFor="filterByTag">
                         <input 
                             type="checkbox" 
                             id="filterByTag"
                             checked={filterSearch}
-                            onChange={()=>{setFilterSearch(!filterSearch)}}
+                            onChange={handleChangeFilter}
                         />
                         <span className="slider" />
                     </label>
