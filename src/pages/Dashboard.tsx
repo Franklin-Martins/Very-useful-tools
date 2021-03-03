@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import api from '../services/api'
 
 import ModalAddTool from '../components/ModalAddTool'
+import ModalDeleteTool from '../components/ModalDeleteTool'
 
 import {
     Container,
@@ -26,6 +27,7 @@ const Dashboard:React.FC = () => {
     const [tag, setTag] = useState('');
     const [nameOfTitle, setNameOfTitle] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
     useEffect(()=> {
         async function loadTools() {
@@ -89,8 +91,12 @@ const Dashboard:React.FC = () => {
         setModalOpen(!modalOpen)
     }
 
+    async function openDeleteModel(){
+        setDeleteModalOpen(!deleteModalOpen)
+    }
+
     async function handleAddTool(tool: Omit<Tool, 'id'>){
-        setModalOpen(!modalOpen)
+        
         try {
           console.log(tool)
           const response = await api.post('/tools', tool)
@@ -101,14 +107,32 @@ const Dashboard:React.FC = () => {
           console.log(err);
         }
     }
+
+    async function handleRemoveTool(id: number){
+        try {
+          await api.delete(`/tools/${id}`)
+
+          setTools(tools.filter(tool => tool.id !== id));
+          
+        } catch (err) {
+          console.log(err);
+        }
+    }
     
     return(
         <>
         <Container>
+
         <ModalAddTool 
             isOpen={modalOpen}
             setIsOpen={toggleModal}
             handleAddTool={handleAddTool}
+        />
+
+        <ModalDeleteTool 
+            isOpen={deleteModalOpen}
+            setIsOpen={openDeleteModel}
+            handleDeleteTool={handleRemoveTool}
         />
             <Content>
             <Header>
@@ -134,7 +158,7 @@ const Dashboard:React.FC = () => {
                     </label>
                     <span >search in tags only</span>
                 </div>
-                <button onClick={openModal}> + add</button>
+                <button onClick={openModal}> add</button>
             </Navigation>
             
             {tools && tools.map((tool)=>{
@@ -142,7 +166,7 @@ const Dashboard:React.FC = () => {
                     <Card key={tool.id}>
                     <header>
                         <a href={tool.link}><h1> {tool.title} </h1></a>
-                        <button>remove</button>
+                        <button onClick={()=> handleRemoveTool(tool.id)}>remove</button>
                     </header>
                     <div>
                         <p>
