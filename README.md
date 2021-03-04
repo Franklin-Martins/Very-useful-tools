@@ -4,11 +4,11 @@
 
 ## Get Started
 
-### Fisrt you must run the command
+#### Fisrt you must run the command
 
 yarn json-server -p 3333 server.json
 
-### Now the fake api is running on http://localhost:3000, then run:
+#### Now the fake api is running on http://localhost:3333, then run:
 
 yarn start
 
