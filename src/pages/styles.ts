@@ -25,6 +25,16 @@ export const Header = styled.header`
         border-radius: 5px;
         opacity: 1;
     }
+    @media screen and (max-width: 650px){
+        padding: 0;
+        width: 100%;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 40px;
+    }
 `;
 
 export const Navigation = styled.div`
@@ -109,6 +119,20 @@ export const Navigation = styled.div`
             background-color: #10B26C;
         }
     }
+    @media screen and (max-width: 650px){
+        flex-direction: column;
+        width: 100vw;
+        padding: 10px 10px;
+        align-items: center;
+        justify-content: space-between;
+        div{
+            margin-bottom: 20px;
+        }
+        button{
+            align-self: flex-end;
+            margin-right: 45px;
+        }
+    }
 `;
 
 export const Card = styled.article`
@@ -154,5 +178,9 @@ export const Card = styled.article`
         >strong{
             margin-right: 10px;
         }
+    }
+    @media screen and (max-width: 650px){
+        width: 100vw;
+        padding: 0 55px;
     }
 `;

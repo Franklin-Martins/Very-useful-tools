@@ -23,18 +23,21 @@ const Modal: React.FC<ModalProps> = ({ children, isOpen, setIsOpen })=>{
             ariaHideApp={false}
             style={{
                 content:{
-                    top: '50%',
-                    left: '680px',
-                    right: 'auto',
-                    bottom: 'auto',
-                    marginRight: '-50%',
-                    transform: 'translate(-50%, -50%)',
-                    background: '#FFFFFF 0% 0% no-repeat padding-box;',
-                    color: '#000000',
-                    borderRadius: '8px',
-                    width: '570px',
-                    maxHeight: '616px',
-                    border: 'none'
+                    position: 'absolute',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    top: '70px',
+                    left: '70px',
+                    right: '70px',
+                    bottom: '70px',
+                    border: 'none',
+                    background: 'transparent',
+                    overflow: 'auto',
+                    WebkitOverflowScrolling: 'touch',
+                    borderRadius: '4px',
+                    outline: 'none',
+                    padding: '0'
                 },
                 overlay:{
                     background: '#121214e6'

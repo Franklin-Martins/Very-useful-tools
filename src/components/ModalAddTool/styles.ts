@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const Form = styled.form`
-padding: 48px 40px;
+padding: 20px 20px;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-width: 100%;
+width: 500px;
 height: 100%;
 background: #FFFFFF 0% 0% no-repeat padding-box;
 box-shadow: 0px 20px 25px #0000001A;
@@ -37,8 +37,14 @@ opacity: 1;
     line-height: 36px;
     margin-bottom: 40px;
   }
-  button {
-    margin-top: 48px;
+
+  button:first-child {
+    background-color: transparent;
+    color: black;
+    width: 50px;
+    &:hover{
+      background-color: transparent;
+    }
   }
   button {
     align-self: flex-end;
@@ -52,5 +58,15 @@ opacity: 1;
     &:hover{
             background-color: #10B26C;
         }
+  }
+
+  @media screen and  (max-width: 650px){
+    width: 90vw;
+    height: 70vh;
+    padding: 10px;
+
+    button:last-child{
+      margin-bottom: 100px;
+    }
   }
 `;

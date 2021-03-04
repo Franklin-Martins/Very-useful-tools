@@ -42,6 +42,7 @@ const ModalAddFood: React.FC<ModalProps> = ({
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <Form  onSubmit={onSubmit}>
+      <button className="close" onClick={()=>setIsOpen()}>X</button>
         <h1>Add new Tool</h1>
         <label htmlFor="title"> <strong>Tool name</strong> </label>
         <input ref={register({ required: true })} id="title" name="title" placeholder="Ex: json-server" />
