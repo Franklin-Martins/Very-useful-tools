@@ -6,6 +6,10 @@
 
 #### Fisrt you must run the command
 
+yarn
+
+##### then run the api fake with
+
 yarn json-server -p 3333 server.json
 
 #### Now the fake api is running on http://localhost:3333, then run:
