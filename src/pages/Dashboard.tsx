@@ -104,7 +104,7 @@ const Dashboard:React.FC = () => {
           addNotification({
               type: 'success',
               title: 'Success!',
-              description: "success when deleting tool."
+              description: "success when adding tool."
           });
         } catch (err) {
           console.log(err);
