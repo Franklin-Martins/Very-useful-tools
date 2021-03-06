@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useState } from 'react'
-import { uuid } from 'uuidv4';
+import { v4 } from 'uuid';
 
 import BannerNotification from '../components/BannerNotification'
 
@@ -21,7 +21,7 @@ const NotificationProvider: React.FC = ({ children }) =>{
     const [messages, setMessages] = useState<NotificationMessage[]>([]);
 
     const addNotification = useCallback(({type, title, description }: Omit<NotificationMessage, 'id'>)=>{
-        const id = uuid();
+        const id = v4();
 
         const notification:NotificationMessage = {
             id,

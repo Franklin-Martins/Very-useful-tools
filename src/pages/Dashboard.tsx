@@ -103,11 +103,16 @@ const Dashboard:React.FC = () => {
           
           addNotification({
               type: 'success',
-              title: "Sucesso",
-              description: "Nota adicionado com sucesso!"
+              title: 'Success!',
+              description: "success when deleting tool."
           });
         } catch (err) {
           console.log(err);
+          addNotification({
+              type: 'error',
+              title: 'Error!',
+              description: 'error when deleting tool, try again!'
+          })
         }
     }
 
@@ -119,13 +124,9 @@ const Dashboard:React.FC = () => {
     async function handleRemoveTool(){
         try {
             await api.delete(`/tools/${deletingTool.id}`)
+            
             setTools(tools.filter(tool => tool.id !== deletingTool.id));
 
-            addNotification({
-                type: 'success',
-                title: "Deletado com sucesso",
-                description: "Ferramenta deletada com sucesso!"
-            });
         } catch (err) {
           console.log(err);
         }

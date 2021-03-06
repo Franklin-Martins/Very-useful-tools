@@ -1,4 +1,5 @@
 import styled, {css} from 'styled-components'
+import { animated } from 'react-spring'
 
 
 interface NotificationProps{
@@ -27,7 +28,7 @@ const notificationTypeVariations = {
 }
 
 
-export const Container = styled.div<NotificationProps>`
+export const Container = styled(animated.div)<NotificationProps>`
     max-width: 400px;
     color: #fff;
     position: relative;

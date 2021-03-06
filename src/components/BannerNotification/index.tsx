@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTransition } from 'react-spring'
 
 import { Container } from './styles'
 
@@ -11,11 +12,20 @@ interface NotificationProps{
 }
 
 const BannerNotification:React.FC<NotificationProps> = ({ messages }) =>{
+    const messagesWithTransitions = useTransition(
+        messages,
+        message=> message.id,
+        {
+            from: { right: '-120%' },
+            enter: { right: '0' },
+            leave: { right: '-120%' }
+        }
+    )
 
     return(
         <Container>
-            {messages.map((message) => (
-                <Notification key={message.id} message={message} />
+            {messagesWithTransitions.map(({ item, key, props }) => (
+                <Notification key={key} style={props} message={item} />
             )
             )}
         </Container>

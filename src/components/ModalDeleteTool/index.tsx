@@ -15,17 +15,12 @@ interface IModalProps {
   deletingTool: Tool;
 }
 
-const ModalEditFood: React.FC<IModalProps> = ({
+const ModalDeleteTool: React.FC<IModalProps> = ({
   isOpen,
   setIsOpen,
   deletingTool,
   handleRemoveTool,
-}) => {
-
-  const onDelete = () => {
-      handleRemoveTool(deletingTool)
-
-  }
+}) => {  
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -37,11 +32,11 @@ const ModalEditFood: React.FC<IModalProps> = ({
             <span>Are you sure you want to remove <strong> {deletingTool.title} </strong> </span>
             <div>
                 <button onClick={ ()=> setIsOpen()}>Cancel</button>
-                <button onClick={ ()=> onDelete()} >Delete</button>
+                <button onClick={ ()=> handleRemoveTool(deletingTool)} >Delete</button>
             </div>
         </Container>
     </Modal>
   );
 };
 
-export default ModalEditFood;
+export default ModalDeleteTool;
