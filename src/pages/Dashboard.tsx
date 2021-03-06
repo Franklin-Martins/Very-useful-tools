@@ -11,6 +11,7 @@ import {
     Navigation,
     Card,
 } from './styles'
+import { useNotification } from '../hooks/Notification'
 
 interface Tool{
     id: number;
@@ -30,6 +31,7 @@ const Dashboard:React.FC = () => {
     const [deletingTool, setDeletingTool] = useState<Pick<Tool, 'id' | 'title'>>({} as Tool);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
+    const { addNotification } = useNotification()
     useEffect(()=> {
         async function loadTools() {
              const response = await api.get('/tools')
@@ -95,29 +97,35 @@ const Dashboard:React.FC = () => {
     async function handleAddTool(tool: Omit<Tool, 'id'>){
         setModalOpen(!modalOpen)
         try {
-          console.log(tool)
           const response = await api.post('/tools', tool)
 
           setTools([...tools, response.data])
           
+          addNotification({
+              type: 'success',
+              title: "Sucesso",
+              description: "Nota adicionado com sucesso!"
+          });
         } catch (err) {
           console.log(err);
         }
     }
 
     async function onDelete({ id, title }:Pick<Tool, 'id' | 'title'>) {
-        console.log('funcionou')
         setDeletingTool({ title,id })
         setDeleteModalOpen(!deleteModalOpen)
     }
 
     async function handleRemoveTool(){
         try {
-        console.log('entrou na função')
-        console.log('deletando', deletingTool)
-        await api.delete(`/tools/${deletingTool.id}`)
-        setTools(tools.filter(tool => tool.id !== deletingTool.id));
-          
+            await api.delete(`/tools/${deletingTool.id}`)
+            setTools(tools.filter(tool => tool.id !== deletingTool.id));
+
+            addNotification({
+                type: 'success',
+                title: "Deletado com sucesso",
+                description: "Ferramenta deletada com sucesso!"
+            });
         } catch (err) {
           console.log(err);
         }
