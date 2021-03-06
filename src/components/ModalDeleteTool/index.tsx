@@ -20,14 +20,14 @@ const ModalDeleteTool: React.FC<IModalProps> = ({
   setIsOpen,
   deletingTool,
   handleRemoveTool,
-}) => {  
-
+}) => {
+  
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <Container>
             <Header>
-            <h1>Remove Tool</h1>
-            <button onClick={ ()=> setIsOpen()}>X</button>
+            <h2> <strong>Remove Tool</strong> </h2>
+            <button onClick={ ()=> setIsOpen()}> x </button>
             </Header>
             <span>Are you sure you want to remove <strong> {deletingTool.title} </strong> </span>
             <div>

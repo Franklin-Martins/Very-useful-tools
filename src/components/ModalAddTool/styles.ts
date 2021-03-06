@@ -42,6 +42,7 @@ opacity: 1;
     background-color: transparent;
     color: black;
     width: 50px;
+    font-size: 20px;
     &:hover{
       background-color: transparent;
     }

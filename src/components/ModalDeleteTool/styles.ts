@@ -41,10 +41,11 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 margin-bottom: 30px;
+padding: 20px 10px 0 10px;
     button{
         border:none;
         background-color: transparent;
         margin-right: 10px;
-        
+        font-size:20px;
     }
 `;

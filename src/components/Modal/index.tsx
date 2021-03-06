@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import "./styles.css"
+
 import ReactModal from 'react-modal';
 
 interface ModalProps{
@@ -14,8 +16,8 @@ const Modal: React.FC<ModalProps> = ({ children, isOpen, setIsOpen })=>{
     useEffect(() => {
         setModalStatus(isOpen);
     }, [isOpen])
-
-    return(
+    
+    return(    
         <ReactModal
             shouldCloseOnOverlayClick={!false}
             onRequestClose={setIsOpen}
